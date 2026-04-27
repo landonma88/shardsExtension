@@ -1,6 +1,3 @@
-#ifndef SHARDSEXTENSION
-#define SHARDSEXTENSION
-
 #include "shardsExtension.h"
 #include <vector>
 #include <map>
@@ -451,5 +448,3 @@ void shardsExtension::start_optimize(map<int, vector<int>> parentChildren, int e
         }
     }
 }
-
-#endif // MESSAGE_H

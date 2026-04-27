@@ -1,5 +1,9 @@
-#ifndef TPSMODEL      // ← 移到最顶部
-#define TPSMODEL
+#include "tpsModel.h"
+#include <regex>
+#include <sstream>
+#include <cstdio>
+#include <algorithm>
+#include <iostream>
 
 vector<int> throughput_model:: parseLine(const string& line){
 
@@ -43,7 +47,8 @@ void throughput_model::parseTopology(const vector<string>& topologyLines){
         int parentId = numbers.at(0);
 
         if (shards.find(parentId) == shards.end()) {  // 添加父亲分片
-            shardsExtension parentShard = {parentId, 0, 0, 0, 0, {}, -1};
+            SimulationShard parentShard;
+            parentShard.id = parentId;
             shards[parentId] = parentShard;
         }
 
@@ -51,7 +56,8 @@ void throughput_model::parseTopology(const vector<string>& topologyLines){
             int childId = numbers.at(i);
 
             if (shards.find(childId) == shards.end()) {
-                shardsExtension childShard = {childId, 0, 0, 0, 0, {}, -1};
+                SimulationShard childShard;
+                childShard.id = childId;
                 shards[childId] = childShard;
             }
             shards[parentId].children.push_back(childId);
@@ -293,9 +299,8 @@ double throughput_model::calculate_average_latency(){
         }
 
         // cout << "average_latency = " << total_latency / total_sub_tx_num << endl;
-        return total_latency / total_sub_tx_num;
     }
-    return 0;
+    return total_latency / total_sub_tx_num;
 }
 
 double throughput_model::calculate_total_tps(){
@@ -386,7 +391,8 @@ throughput_model::throughput_model(vector<string> topologyLines){
 
         // 创建父分片（若不存在则初始化）
         if (shards.find(parentId) == shards.end()) {
-            shardsExtension parentShard = {parentId, 0, 0, 0, 0, {}, -1};
+            SimulationShard parentShard;
+            parentShard.id = parentId;
             shards[parentId] = parentShard;
         }
 
@@ -397,7 +403,8 @@ throughput_model::throughput_model(vector<string> topologyLines){
 
             int childId = ch - '0';
             if (shards.find(childId) == shards.end()) {
-                shardsExtension childShard = {childId, 0, 0, 0, 0, {}, -1};
+                SimulationShard childShard;
+                childShard.id = childId;
                 shards[childId] = childShard;
             }
             shards[parentId].children.push_back(childId);
@@ -417,4 +424,3 @@ throughput_model::throughput_model(vector<string> topologyLines){
 
 
 
-#endif // MESSAGE_H

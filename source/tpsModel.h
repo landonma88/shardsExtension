@@ -1,14 +1,10 @@
-#ifndef TPSMODEL      // ← 移到最顶部
-#define TPSMODEL
+#ifndef TPSMODEL_H
+#define TPSMODEL_H
 
 #include <map>
 #include "common.h"
-#include "tpsModel.cpp"
 
 using namespace std;
-
-class SShard;
-class shardsExtension;
 
 class throughput_model{
 
@@ -17,7 +13,7 @@ class throughput_model{
         vector<string> loadLines;
 
         int internalTxLoad = 1;
-        int crossShardTxLoad = 1.2;
+        double crossShardTxLoad = 1.2;
 
         double order_capacity = 5000;
         double process_capacity = 8000;
@@ -25,7 +21,7 @@ class throughput_model{
         double total_Throughput = 0; // 系统整体吞吐
         double average_Latency = 0; // 系统平均交易延迟
 
-        map<int, shardsExtension> shards;
+        map<int, SimulationShard> shards;
         vector<cross_shard_workload> cross_shard_workloads; // 所有的跨片负载
         map<string, map<string, int>> cross_traffic;
 
@@ -55,10 +51,10 @@ class throughput_model{
         void parseFlatenLoad(const vector<string>& loadLines);
 
         // 计算非叶子分片能够处理的交易数量
-        int calculateNonLeafTxCount(SShard& shard);
+        int calculateNonLeafTxCount(SimulationShard& shard);
 
         // 计算叶子分片的吞吐量
-        int calculateLeafThroughput(SShard& shard, map<double, double> availableTxs);
+        int calculateLeafThroughput(SimulationShard& shard, map<double, double> availableTxs);
 
         // 计算交易平均延时
         double calculate_average_latency();
@@ -78,4 +74,4 @@ class throughput_model{
 
 
 
-#endif // MESSAGE_H
+#endif // TPSMODEL_H
