@@ -1,15 +1,16 @@
-#ifndef SHARDSEXTENSION
-#define SHARDSEXTENSION
+#ifndef SHARDSEXTENSION_H
+#define SHARDSEXTENSION_H
 
 #include <vector>
 #include <map>
 #include <string>
+#include <unordered_map>
+#include <memory>
+#include <set>
 
-#include "shardsExtension.cpp"
+#include "tpsModel.h"
 
 using namespace std;
-
-class throughput_model;
 
 class shardsExtension {
 
@@ -52,4 +53,4 @@ class shardsExtension {
 
 };
 
-#endif // MESSAGE_H
+#endif // SHARDSEXTENSION_H
